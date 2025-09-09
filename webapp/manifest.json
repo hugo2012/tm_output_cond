@@ -1,0 +1,132 @@
+{
+    "_version": "1.60.0",
+    "sap.app": {
+        "id": "com.bosch.rb1m.tm.tmoutputcond",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.15.7",
+            "toolsId": "667e1022-4b60-48d4-ad10-ad434402f86a"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/rb1m/TM_OUTPUT_MAINT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.25",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.bosch.rb1m.tm.tmoutputcond.i18n.i18n"
+                }
+            },
+            "mainService": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "useBatch": true
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "com.bosch.rb1m.tm.tmoutputcond.view",
+                "async": true,
+                "viewPath": "com.bosch.rb1m.tm.tmoutputcond.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteMainView",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetMainView"
+                    ]
+                },
+                {
+                    "pattern": "objectDetail",
+                    "name": "objectDetail",
+                    "target": [
+                        "objectDetail"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetMainView": {
+                    "id": "MainView",
+                    "name": "MainView",
+                    "viewLevel": 1
+                },
+                "objectDetail": {
+                    "viewName": "ObjectDetail",
+                    "viewId": "objectDetail",
+                    "viewLevel": 2
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "com.bosch.rb1m.tm.tmoutputcond.view.App",
+            "type": "XML",
+            "id": "App"
+        }
+    }
+}

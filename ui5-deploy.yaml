@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: com.bosch.rb1m.tm.tmoutputcond
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: A1M
+          url: http://a1m-https-sso:42
+          client: '011'
+        app:
+          name: /RB1M/TM_OUTPUT_CONDT
+          description: 'TM: Condition maintenance table'
+          package: /RB1M/TM_COND_TABLE_UI5
+          transport: A1MK919452
+        exclude:
+          - /test/

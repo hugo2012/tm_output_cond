@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="OutputType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="OutputTypeName"/>
+                </Key>
+                <Property Name="OutputTypeName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Action Definition" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Language Key" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Action Definition" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <NavigationProperty Name="AccessSequenceSet" Relationship="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.Output2AccessSeq" FromRole="FromRole_Output2AccessSeq" ToRole="ToRole_Output2AccessSeq"/>
+            </EntityType>
+            <EntityType Name="AccessSequence" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="OutputTypeName"/>
+                    <PropertyRef Name="TableName"/>
+                </Key>
+                <Property Name="OutputTypeName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Action Definition" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="TableName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Table Name" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="TableDescription" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="AccessSequenceNo" Type="Edm.Byte" Nullable="false" sap:unicode="false" sap:label="Access Sequence" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="DynamicTable" Relationship="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.AccessSeq2DynamicTab" FromRole="FromRole_AccessSeq2DynamicTab" ToRole="ToRole_AccessSeq2DynamicTab"/>
+            </EntityType>
+            <EntityType Name="DynamicTable" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="OutputTypeName"/>
+                </Key>
+                <Property Name="Header" Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.Header" Nullable="false"/>
+                <Property Name="Items" Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.Items" Nullable="false"/>
+                <Property Name="Title" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="OutputTypeName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Action Definition" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TableName" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Table Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <ComplexType Name="Header">
+                <Property Name="HeaderIndex" Type="Edm.Byte" Nullable="false" sap:label="Header Index" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HeaderName" Type="Edm.String" Nullable="false" MaxLength="30" sap:label="Component name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HeaderType" Type="Edm.String" Nullable="false" sap:label="Data type of field" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HeaderKey" Type="Edm.Boolean" Nullable="false" sap:label="Boolean Variable (X = True, - = False, Space = Unknown)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HeaderValue" Type="Edm.String" Nullable="false" MaxLength="60" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <ComplexType Name="Items">
+                <Property Name="Col1" Type="Edm.String" Nullable="false" sap:label="Value of column Col1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col2" Type="Edm.String" Nullable="false" sap:label="Value of column Col2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col3" Type="Edm.String" Nullable="false" sap:label="Value of column Col3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col4" Type="Edm.String" Nullable="false" sap:label="Value of column Col4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col5" Type="Edm.String" Nullable="false" sap:label="Value of column Col5" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col6" Type="Edm.String" Nullable="false" sap:label="Value of column Col6" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col7" Type="Edm.String" Nullable="false" sap:label="Value of column Col7" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col8" Type="Edm.String" Nullable="false" sap:label="Value of column Col8" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col9" Type="Edm.String" Nullable="false" sap:label="Value of column Col9" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col10" Type="Edm.String" Nullable="false" sap:label="Value of column Col10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col11" Type="Edm.String" Nullable="false" sap:label="Value of column Col11" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col12" Type="Edm.String" Nullable="false" sap:label="Value of column Col12" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col13" Type="Edm.String" Nullable="false" sap:label="Value of column Col13" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col14" Type="Edm.String" Nullable="false" sap:label="Value of column Col14" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col15" Type="Edm.String" Nullable="false" sap:label="Value of column Col15" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col16" Type="Edm.String" Nullable="false" sap:label="Value of column Col16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col17" Type="Edm.String" Nullable="false" sap:label="Value of column Col17" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col18" Type="Edm.String" Nullable="false" sap:label="Value of column Col18" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col19" Type="Edm.String" Nullable="false" sap:label="Value of column Col19" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col20" Type="Edm.String" Nullable="false" sap:label="Value of column Col20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col21" Type="Edm.String" Nullable="false" sap:label="Value of column Col21" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col22" Type="Edm.String" Nullable="false" sap:label="Value of column Col22" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col23" Type="Edm.String" Nullable="false" sap:label="Value of column Col23" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col24" Type="Edm.String" Nullable="false" sap:label="Value of column Col24" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Col25" Type="Edm.String" Nullable="false" sap:label="Value of column Col25" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Action" Type="Edm.String" Nullable="false" sap:label="CRUD Operation indicator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <Association Name="AccessSeq2DynamicTab" sap:content-version="1">
+                <End Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.AccessSequence" Multiplicity="1" Role="FromRole_AccessSeq2DynamicTab"/>
+                <End Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.DynamicTable" Multiplicity="1" Role="ToRole_AccessSeq2DynamicTab"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_AccessSeq2DynamicTab">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="OutputTypeName"/>
+                    </Principal>
+                    <Dependent Role="ToRole_AccessSeq2DynamicTab">
+                        <PropertyRef Name="TableName"/>
+                        <PropertyRef Name="OutputTypeName"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Output2AccessSeq" sap:content-version="1">
+                <End Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.OutputType" Multiplicity="1" Role="FromRole_Output2AccessSeq"/>
+                <End Type="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.AccessSequence" Multiplicity="*" Role="ToRole_Output2AccessSeq"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Output2AccessSeq">
+                        <PropertyRef Name="OutputTypeName"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Output2AccessSeq">
+                        <PropertyRef Name="OutputTypeName"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="RB1M_TM_OUTPUT_CONDTABLE_MAIN_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="DynamicTableSet" EntityType="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.DynamicTable" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="OutputTypeSet" EntityType="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.OutputType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="AccessSequenceSet" EntityType="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.AccessSequence" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="Output2AccessSeqSet" Association="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.Output2AccessSeq" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="OutputTypeSet" Role="FromRole_Output2AccessSeq"/>
+                    <End EntitySet="AccessSequenceSet" Role="ToRole_Output2AccessSeq"/>
+                </AssociationSet>
+                <AssociationSet Name="AccessSeq2DynamicTabSet" Association="RB1M.TM_OUTPUT_CONDTABLE_MAIN_SRV.AccessSeq2DynamicTab" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="AccessSequenceSet" Role="FromRole_AccessSeq2DynamicTab"/>
+                    <End EntitySet="DynamicTableSet" Role="ToRole_AccessSeq2DynamicTab"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://A1M.WDISP.BOSCH.COM:443/sap/opu/odata/rb1m/TM_OUTPUT_CONDTABLE_MAIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://A1M.WDISP.BOSCH.COM:443/sap/opu/odata/rb1m/TM_OUTPUT_CONDTABLE_MAIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,211 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	height="100%"
+	xmlns:layout="sap.ui.layout"
+	xmlns:forms="sap.ui.layout.form"
+	controllerName="com.bosch.rb1m.tm.tmoutputcond.controller.ObjectDetail">
+	<App id="_IDGenApp">
+	<pages>
+			<Page id="idObjectPage" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+				<subHeader>
+					<OverflowToolbar id="tbHeader">
+						<ToolbarSpacer id="_IDGenToolbarSpacer2"/>	
+						<Button id="editAction" text="{i18n>editBtnTxt}" type="Emphasized" tooltip="{i18n>editBtnTxt}" press="onEdit"/>
+						<Button id="deleteAction" text="{i18n>deleteBtnTxt}" tooltip="{i18n>deleteBtnTxt}" press="onDelete"/>
+					</OverflowToolbar>
+				</subHeader>
+				<content>
+				<VBox id="_IDGenVBox" backgroundDesign="Transparent">
+				 	<forms:Form id="_IDGenForm" width="100%" >
+						<forms:layout>
+							<forms:ColumnLayout id="_IDGenColumnLayout"/>
+						</forms:layout>
+						<forms:formContainers>
+							<forms:FormContainer id="customAttributesFormContainer"  title="{objectModel>/tableDescription}">
+								<forms:formElements>
+									<forms:FormElement id="_OUTPUT_TYPE"  label="{i18n>output_type_txt}"  >
+										<forms:fields>
+											<ComboBox id="OUTPUT_TYPE" name="OutputType" items="{comboBoxModel>/OutputTypeSet}"
+												selectedKey="{objectModel>/seloutputtype}" editable="false" >
+												<core:Item id="_IDGenItem11" key="{comboBoxModel>Output}" text="{comboBoxModel>Description}"/>
+											</ComboBox>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idShippingPoint"  label="{i18n>shipping_point_txt}">
+										<forms:fields>						
+											<MultiInput id="SHIPPING_POINT" name="SHIPPING_POINT"
+												editable="{objectModel>/createEnable}"
+												enabled="true"								
+												showSuggestion="false"
+												showValueHelp="true"
+												submit="onCheckShippingPoint"
+												maxTokens="1"
+												required="true"
+												maxLength="4"
+												change="onShippingPointChange"
+												tokenUpdate=".onTokenUpdate"
+												valueHelpRequest=".onValueHelpRequestAuto">  											
+											</MultiInput>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idShiptoParty" label="{i18n>ship_to_party_txt}">
+										<forms:fields>
+											<MultiInput id="SHIP_TO_PARTY" name="SHIP_TO_PARTY"
+												editable="{objectModel>/createEnable}"
+												enabled="true"								
+												showSuggestion="false"
+												showValueHelp="true"
+												submit="onCheckShipToParty"
+												maxTokens="1"
+												maxLength="10"
+												required="true"
+												tokenUpdate=".onTokenUpdate"
+												change="onShipToPartyChange"
+												valueHelpRequest=".onValueHelpRequestAuto">  												
+											</MultiInput>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idCSP"  label="{i18n>csp_txt}">
+										<forms:fields>
+											<MultiInput id="CSP" name="CSP"
+												editable="{objectModel>/createEnable}"
+												enabled="true"								
+												showSuggestion="false"
+												showValueHelp="true"
+												maxTokens="1"
+												submit="onCheckCsp"
+												maxLength="10"
+												required="true"
+												change="onCspChange"
+												tokenUpdate=".onTokenUpdate"
+												valueHelpRequest=".onValueHelpRequestAuto">  		
+											</MultiInput>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idDEST_COUNTRY"  label="{i18n>country_txt}">
+										<forms:fields>
+											<MultiInput id="DEST_COUNTRY" name="DEST_COUNTRY"
+												editable="{objectModel>/createEnable}"
+												enabled="true"								
+												showSuggestion="true"
+												showValueHelp="true"
+												maxTokens="1"
+												submit="onCheckCountry"
+												maxLength="20"
+												tokenUpdate=".onTokenUpdate"
+												change="onCountryChange"
+												required="true"
+												valueHelpRequest=".onValueHelpRequestAuto"
+												suggestionItems="{
+													path: 'comboBoxModel>/CountrySet',
+													sorter: { path: 'CountryName' },
+													length: 300
+												}"
+												>  		
+												 <core:Item id="_IDGenItem21" key="{comboBoxModel>CountryCode}" text="{comboBoxModel>CountryName}" />								
+											</MultiInput>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idOutputDevice" label="{i18n>out_device_txt}">
+										<forms:fields>
+											<Input id="OUTPUT_DEVICE"  showValueHelp="true" submit="onCheckOutputDevice" valueHelpRequest="onValueHelpRequest_Table"
+											value="{objectModel>/dynamicForm/0/OUTPUT_DEVICE}" editable="{objectModel>/editEnable}" change="onInputChange"/>		
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idprinttimepoint" label="{i18n>print_time_point_txt}" >
+										<forms:fields>
+											<ComboBox id="comb_PRINT_TIMEPOINT_1"   items="{ path: 'comboBoxModel>/PrintTimePointSet',templateShareable: false}"
+											 change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											 showSecondaryValues= "true" filterSecondaryValues= "true"
+												selectedKey="{objectModel>/dynamicForm/0/PRINT_TIMEPOINT}" editable="{objectModel>/editEnable}">
+												<core:ListItem id="PRINT_TIMEPOINT" key="{comboBoxModel>Print_TimePoint}" text="{comboBoxModel>Text}"
+												/>
+											</ComboBox>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idno_of_copies" label="{i18n>no_of_copies_txt}">
+										<forms:fields>
+											<Input id="NO_OF_COPIES" maxLength="2" binding="{objectModel>/dynamicForm/0}" 
+											value="{objectModel>NO_OF_COPIES}"
+											change="onInputChange" editable="{objectModel>/editEnable}">
+										    </Input>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idrel_after_output" label="{i18n>rel_after_output_txt}" visible="false">
+										<forms:fields>
+											<Switch id="REL_AFTER_OUTPUT"
+												state="{= ${objectModel>/dynamicForm/0/REL_AFTER_OUTPUT} === 'X' ? true : false}"
+												change="onInputChange"
+												visible="false"
+												customTextOn="Yes"
+												customTextOff="No"
+												enabled="{objectModel>/editEnable}"
+											/>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="idprint_language" label="{i18n>print_language_txt}">
+										<forms:fields>			
+											<ComboBox id="PRINT_LANGUAGE"   items="{ path: 'comboBoxModel>/PrintLanguageSet',length: 300}" 
+											showSecondaryValues= "true" filterSecondaryValues= "true"
+											selectedKey="{objectModel>/dynamicForm/0/PRINT_LANGUAGE}" change="handleChangeCbDevice"  editable="{objectModel>/editEnable}">
+											<core:ListItem id="PRINT_LANGUAGE_123" key="{comboBoxModel>Spras}" text="{comboBoxModel>Sptxt}"
+											/>
+										</ComboBox>	
+										</forms:fields>
+								    </forms:FormElement>
+									<forms:FormElement id="idarchieve_mode" label="{i18n>archieve_mode_txt}">
+										<forms:fields>		
+											<Switch id="ARCHIEVE"
+												state="{= ${objectModel>/dynamicForm/0/ARCHIEVE} === 'Y' ? true : false}"
+												change="onInputChange"
+												customTextOn="Yes"
+												customTextOff="No"
+												enabled="{objectModel>/editEnable}"
+											/>
+										</forms:fields>
+								    </forms:FormElement>
+									<forms:FormElement id="id_FUNCTION_2" label="{i18n>function_txt}">
+										<forms:fields>
+											<ComboBox id="comb_FUNCTION_ASN_2" showSecondaryValues= "true" filterSecondaryValues= "true"
+											 items="{ path: 'comboBoxModel>/ASNPartnerTypeSet',templateShareable: false}" 
+											change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											selectedKey="{objectModel>/dynamicForm/0/FUNCTION}" editable="{objectModel>/editEnable}">
+											<core:ListItem id="FUNCTION_ASN_123" key="{comboBoxModel>PartnerType}" text="{comboBoxModel>Description}" 
+											/>
+										</ComboBox>	
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="id_PARTNER_2" label="{i18n>partner_txt}">
+										<forms:fields>
+											<Input id="comb_PARTNER_2" maxLength="10" binding="{objectModel>/dynamicForm/0}" showValueHelp="true" 
+											submit="onCheckPartnerAsn" valueHelpRequest="onValueHelpRequest_Table"
+											value="{objectModel>PARTNER}" editable="{objectModel>/editEnable}" 
+											liveChange="onInputChange" change="onInputChange"/>
+										</forms:fields>
+									</forms:FormElement>
+										<forms:FormElement id="id_ASN_SOURCE_2" label="{i18n>asn_source_txt}">
+										<forms:fields>			
+											<ComboBox id="cb_ASN_SOURCE_2" items="{ path: 'comboBoxModel>/ASNSourceSet'}" 
+											showSecondaryValues= "true" filterSecondaryValues= "true"
+											selectedKey="{objectModel>/dynamicForm/0/ASN_SOURCE}" change="handleChangeCbDevice"  editable="{objectModel>/editEnable}">
+											<core:ListItem id="ASN_SOURCE_123" key="{comboBoxModel>ASN_ID}" text="{comboBoxModel>ASN_TEXT}"
+											/>
+										</ComboBox>	
+										</forms:fields>
+								    </forms:FormElement>
+								</forms:formElements>
+							</forms:FormContainer>
+						</forms:formContainers>
+					</forms:Form>
+				 </VBox>
+				</content>
+				<footer>
+					<OverflowToolbar id="tbBottom" >
+						<ToolbarSpacer id="_IDGenToolbarSpacer4"/>
+						<Button id="btnSave" visible="{objectModel>/showFooter}" type="Emphasized" text="{i18n>saveBtnTxt}" tooltip="{i18n>saveBtnTxt}" press="onSave"/>
+						<Button id="btnCancel" visible="{objectModel>/showFooter}" text="{i18n>cancelBtnTxt}" tooltip="{i18n>cancelBtnTxt}" press="onCancel"/>
+					</OverflowToolbar>
+				</footer>
+			</Page>
+		</pages>
+		</App>	
+</mvc:View>

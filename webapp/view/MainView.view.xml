@@ -1,0 +1,276 @@
+<mvc:View controllerName="com.bosch.rb1m.tm.tmoutputcond.controller.MainView" 
+	xmlns:mvc="sap.ui.core.mvc"
+		xmlns="sap.m"
+		xmlns:f="sap.f"
+        xmlns:core="sap.ui.core"
+        xmlns:fb="sap.ui.comp.filterbar"
+		xmlns:layout="sap.ui.layout"
+        xmlns:svm="sap.ui.comp.smartvariants"
+		height="100%">
+		<f:DynamicPage id="dynamicPageId"  >				
+			<f:header >
+				<f:DynamicPageHeader id="_IDGenDynamicPageHeader" pinnable="true" visible="true">
+				<f:content>     
+					 <HBox id="_IDGenHBox1" alignItems="Start" justifyContent="Start" class="sapUiSmallMarginBottom pgTitleFont" >
+						<Title id="_IDGenTitle1" text="{i18n>title}"/>
+					</HBox>               
+					<fb:FilterBar id="_IDGenFilterBar12" 
+					search=".onSearchGo" 
+					useToolbar="false" 
+					advancedMode="false"
+					showFilterConfiguration="false"
+					>
+						<fb:filterGroupItems>
+							<fb:FilterGroupItem id="_IDGenFilterOutputType"
+									groupName="__$INTERNAL$"
+									name="OUTPUT_TYPE"
+									label="{i18n>outputType}"
+									mandatory="true"									
+									visibleInFilterBar="true">
+								<fb:control>
+									<ComboBox id="cboutputtype"  name="OutputType" items="{path: 'dataModel>/OutputTypeSet', sorter: { path: 'Description' }}"
+										selectedKey="{dataModel>/seloutputtype}" change="handleChangeCbDevice" selectionChange=".onOutputTypeChange">
+										<core:Item id="_IDGenItem" key="{dataModel>Output}" text="{dataModel>Description}" />
+									</ComboBox>
+								</fb:control>
+							</fb:FilterGroupItem>
+							<fb:FilterGroupItem id="_IDGenFilterAccessSequence"
+									groupName="__$INTERNAL$"
+									name="TABLE_NAME"
+									mandatory="true"
+									label="{i18n>accessSequence}"
+									visibleInFilterBar="true">
+								<fb:control>
+									<ComboBox id="cbaccesssequence"  name="TableName" selectedKey="{dataModel>/seltablename}"
+										items="{dataModel>/AccessSequenceSet}" enabled="true" change="handleChangeCbDevice"  selectionChange=".onAccessSequenceChange">
+										<core:Item id="_IDGenItem1" key="{dataModel>TableName}" text="{dataModel>TableDescription}"/>
+									</ComboBox>
+								</fb:control>
+							</fb:FilterGroupItem> 		
+							<fb:FilterGroupItem id="_IDGenFilterGroupShippingPoint"
+							groupName="__$INTERNAL$"
+							name="SHIPPING_POINT"
+							label="{i18n>shipping_point_txt}"
+							mandatory="true"	
+							visibleInFilterBar="{dataModel>/filt_shippingpoint}">
+							<fb:control>
+								<MultiInput id="_IDMultiInputShippingPoint" name="SHIPPING_POINT"
+									editable="true"
+									enabled="true"								
+									showSuggestion="false"
+									showValueHelp="true"
+									maxLength="4"
+									submit="onShippingPointChange"
+									valueHelpRequest=".onValueHelpRequestAuto"
+									>  
+								</MultiInput>
+							</fb:control>
+							</fb:FilterGroupItem> 	
+							<fb:FilterGroupItem id="_IDGenFilterGroupShiptoParty"
+							groupName="__$INTERNAL$"
+							name="SHIP_TO_PARTY"
+							label="{i18n>ship_to_party_txt}"
+							visibleInFilterBar="{dataModel>/filt_shiptoparty}">
+							<fb:control>
+								<MultiInput id="_IDMultiInputShiptoParty" name="SHIP_TO_PARTY"
+									editable="true"
+									enabled="true"								
+									showSuggestion="false"
+									showValueHelp="true"
+									submit="onShipToPartyChange"
+									maxLength="10"
+									valueHelpRequest=".onValueHelpRequestAuto"
+									>  
+								</MultiInput>
+							</fb:control>
+							</fb:FilterGroupItem> 
+							<fb:FilterGroupItem id="_IDGenFilterGroupCSP"
+							groupName="__$INTERNAL$"
+							name="CSP"
+							label="{i18n>csp_txt}"
+							visibleInFilterBar="{dataModel>/filt_csp}">
+							<fb:control>
+								<MultiInput id="_IDMultiInputCSP" name="CSP"
+									editable="true"
+									enabled="true"								
+									showSuggestion="false"
+									showValueHelp="true"
+									submit="onCspChange"
+									valueHelpRequest=".onValueHelpRequestAuto"
+									>  
+								</MultiInput>
+							</fb:control>
+							</fb:FilterGroupItem>	
+							<fb:FilterGroupItem id="_IDGenFilterGroupDEST_COUNTRY"
+							groupName="__$INTERNAL$"
+							name="DEST_COUNTRY"
+							label="{i18n>country_txt}"
+							visibleInFilterBar="{dataModel>/filt_country}">
+							<fb:control>
+								<MultiInput id="_IDMultiInputDEST_COUNTRY" name="DEST_COUNTRY"
+									editable="true"
+									enabled="true"								
+									showSuggestion="true"
+									showValueHelp="true"
+									submit="onCountryChange"
+									maxLength="20"
+									valueHelpRequest=".onValueHelpRequestAuto"
+									suggestionItems="{
+											path: 'comboBoxModel>/CountrySet',
+											sorter: { path: 'CountryName' },
+											length: 300
+										}"
+									>  
+								 <core:Item id="_IDGenItem2" key="{comboBoxModel>CountryCode}" text="{comboBoxModel>CountryName}" />
+								</MultiInput>
+							</fb:control>
+							</fb:FilterGroupItem>			
+						</fb:filterGroupItems>
+					</fb:FilterBar>          
+					</f:content>
+				</f:DynamicPageHeader>
+			</f:header>
+			<f:content>
+				<Table id="dynamicTable" showNoData="true" visible="true" mode="MultiSelect" 
+					growing="true" growingThreshold="20"  selectionChange="onRowSelectionChange"
+					updateFinished="fnOnDynamicTableUpdated"
+					items="{ path: 'dataModel>/itemTableDataSet',   templateShareable: false }" 
+					itemPress="onItemPress"	
+					growingTriggerText="{i18n>btnGrowing}">
+						<headerToolbar>
+							<Toolbar id="_IDGenToolbar">
+								<content>
+									<Title id="dynamicTableTitle" text="Records" level="H2"/>
+									<ToolbarSpacer id="_IDGenToolbarSpacer"/>
+									<Button id="_IDBtnEdit"    press="onEdit" text="{i18n>editBtnTxt}" tooltip="{i18n>editBtnTxt}" enabled="{dataModel>/bOnCreate}"/>
+									<Button id="_IDBtnCreate" visible="true"  press="onCreate" text="{i18n>createBtnTxt}" tooltip="{i18n>createBtnTxt}" enabled="{dataModel>/bOnCreate}"/>
+									<Button id="_IDBtnDelete"  press="onDelete" text="{i18n>deleteBtnTxt}" tooltip="{i18n>deleteBtnTxt}" enabled="{dataModel>/bDataSelected}"/>
+									<Button id="_IDBtnExport" icon="sap-icon://excel-attachment"  press="onExport" visible="false" tooltip="{i18n>exportBtnTxt}" enabled="{dataModel>/bDataFound}"/>
+									<Button id="_IDBtnSort" tooltip="{i18n>sortBtnTxt}" visible="true" icon="sap-icon://sort" enabled="{dataModel>/bDataFound}" press="handleSortButtonPressed"/>
+								</content>
+							</Toolbar>
+						</headerToolbar>
+							<columns>
+								<Column id="ID_OUTPUT_TYPE" width="16em">
+									<Text id="OUTPUT_TYPE_1" text="{i18n>output_type_txt}" />
+								</Column>
+								<Column id="ID_SHIPPING_POINT" minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="8em" >
+									<Text id="SHIPPING_POINT_1"  text="{i18n>shipping_point_txt}" />
+								</Column>
+								<Column id="ID_SHIP_TO_PARTY" minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="9em">
+									<Text id="SHIP_TO_PARTY_1" text="{i18n>ship_to_party_txt}"/>
+								</Column>
+								<Column id="_CSP" minScreenWidth="Tablet" demandPopin="true"  hAlign="Center" visible="false">
+									<Text id="CSP_1" text="{i18n>csp_txt}"/>
+								</Column>
+								<Column id="ID_DEST_COUNTRY" minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="false">
+									<Text id="DEST_COUNTRY_1" text="{i18n>country_txt}"/>
+								</Column>
+							
+								<Column id="_IDOUTPUT_DEVICE" hAlign="Center"  >
+									<Text id="OUTPUT_DEVICE_1" text="{i18n>out_device_txt}" />
+								</Column>
+								<Column id="ID_PRINT_TIMEPOINT" hAlign="Center" width="10em">
+									<Text id="PRINT_TIMEPOINT_1" text="{i18n>print_time_point_txt}" />
+								</Column>
+								<Column id="_IDNO_OF_COPIES" hAlign="Center" width="7em">
+									<Text id="NO_OF_COPIES_1"  text="{i18n>no_of_copies_txt}" />
+								</Column>
+								<Column id="ID_REL_AFTER_OUTPUT" hAlign="Center" visible="false">
+									<Text id="REL_AFTER_OUTPUT_1"  text="{i18n>rel_after_output_txt}" />
+								</Column>
+								<Column id="ID_PRINT_LANGUAGE" hAlign="Center" >
+									<Text id="PRINT_LANGUAGE_1" text="{i18n>print_language_txt}" />
+								</Column>
+								<Column id="ID_ARCHIEVE_MODE" hAlign="Center" >
+									<Text id="ARCHIEVE_MODE_1" text="{i18n>archieve_mode_txt}" />
+								</Column>
+								<Column id="ID_FUNCTION" hAlign="Center" width="10em" visible="false">
+									<Text id="FUNCTION_1" text="{i18n>function_txt}" />
+								</Column>
+								<Column id="ID_PARTNER" hAlign="Center" width="9em" visible="false">
+									<Text id="PARTNER_1" text="{i18n>partner_txt}" />
+								</Column>
+								<Column id="ID_ASN_SOURCE" hAlign="Center" width="15em" visible="false">
+									<Text id="ASN_SOURCE_1" text="{i18n>asn_source_txt}" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" type="Navigation">
+									<cells>
+										<Input id="_IDGenObject_OUTPUT_TYPE_12r" editable="false"
+											value="{dataModel>/outputTypeDescription}" />										
+										<Input id="SHIPPING_POINT_12" editable="false"
+											value="{dataModel>SHIPPING_POINT}" />	
+										<Input id="SHIP_TO_PARTY_12"
+											value="{dataModel>SHIP_TO_PARTY}" editable="false"/>	
+										<Input id="txt_CSP"
+											value="{dataModel>CSP}"  editable="false"/>
+										<ComboBox id="comb_DEST_COUNTRY"   items="{ path: 'comboBoxModel>/CountrySet',templateShareable: false,length: 300}" 
+										change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											selectedKey="{dataModel>DEST_COUNTRY}" editable="false">
+											<core:Item id="DEST_COUNTRY_123" key="{comboBoxModel>CountryCode}" text="{comboBoxModel>CountryName}" />
+										</ComboBox>					
+										<Input id="comb_OUTPUT_DEVICE"  showValueHelp="true" submit="onCheckOutputDevice" valueHelpRequest="onValueHelpRequest_Table"
+											value="{dataModel>OUTPUT_DEVICE}" editable="{dataModel>/editEnable}" liveChange="onInputChange" change="onInputChange"/>																						
+										<ComboBox id="comb_PRINT_TIMEPOINT"   items="{ path: 'comboBoxModel>/PrintTimePointSet',templateShareable: false}" 
+										change="handleChangeCbDevice" selectionChange =".onInputChange" 
+										showSecondaryValues= "true" filterSecondaryValues= "true"
+											selectedKey="{dataModel>PRINT_TIMEPOINT}" editable="{dataModel>/editEnable}">
+											<core:ListItem id="PRINT_TIMEPOINT_12" key="{comboBoxModel>Print_TimePoint}" text="{comboBoxModel>Text}"
+											/>
+										</ComboBox>
+										<Input id="txt_NO_OF_COPIES" editable="{dataModel>/editEnable}"
+											value="{= ${dataModel>NO_OF_COPIES} === '' ? '0' :  ${dataModel>NO_OF_COPIES}}" maxLength="2" liveChange=".onInputChange" />												
+										<Switch id="comb_REL_AFTER_OUTPUT"
+											state="{= ${dataModel>REL_AFTER_OUTPUT} === 'X' ? true : false}"
+											change="onInputChange"
+											customTextOn="Yes"
+											customTextOff="No"
+											enabled="{dataModel>/editEnable}"
+											/>
+									 	<ComboBox id="comb_PRINT_LANGUAGE"   items="{ path: 'comboBoxModel>/PrintLanguageSet',templateShareable: false}" 
+										change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											showSecondaryValues= "true" filterSecondaryValues= "true"
+											selectedKey="{dataModel>PRINT_LANGUAGE}" editable="{dataModel>/editEnable}">
+											<core:ListItem id="PRINT_LANGUAGE_12" key="{comboBoxModel>Spras}" text="{comboBoxModel>Sptxt}"
+											/>
+										</ComboBox>	 
+										<Switch id="comb_ARCHIEVE"
+												state="{= ${dataModel>ARCHIEVE} === 'Y' ? true : false}"
+												change="onInputChange"
+												customTextOn="Yes"
+												customTextOff="No"
+												enabled="{dataModel>/editEnable}"
+											/>		
+										<ComboBox id="comb_FUNCTION_ASN" showSecondaryValues= "true" filterSecondaryValues= "true"
+											 items="{ path: 'comboBoxModel>/ASNPartnerTypeSet',templateShareable: false}" 
+											change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											selectedKey="{dataModel>FUNCTION}" editable="{dataModel>/editEnable}">
+											<core:ListItem id="FUNCTION_ASN_12" key="{comboBoxModel>PartnerType}" text="{comboBoxModel>Description}" 
+											/>
+										</ComboBox>		
+										<Input id="comb_PARTNER_ASN"  showValueHelp="true" submit="onCheckPartnerAsn" valueHelpRequest="onValueHelpRequest_Table"
+											value="{dataModel>PARTNER}" editable="{dataModel>/editEnable}" liveChange="onInputChange" change="onInputChange"/>
+										<ComboBox id="comb_ASN_SOURCE"  items="{ path: 'comboBoxModel>/ASNSourceSet',templateShareable: false}"
+										 change="handleChangeCbDevice" selectionChange =".onInputChange" 
+										 showSecondaryValues= "true" filterSecondaryValues= "true"
+										 selectedKey="{dataModel>ASN_SOURCE}" editable="{dataModel>/editEnable}">
+										<core:ListItem id="ASN_SOURCE_12" key="{comboBoxModel>ASN_ID}" text="{comboBoxModel>ASN_TEXT}"
+										/>
+										</ComboBox>							
+									</cells>
+								</ColumnListItem>
+							</items>
+					</Table>
+					
+			</f:content>
+				<f:footer>
+					<OverflowToolbar id="tbBottomMain" >
+						<ToolbarSpacer id="_IDGenToolbarSpacer4main"/>
+						<Button id="bntSaveData" visible="{dataModel>/showFooter}" type="Emphasized" text="{i18n>saveBtnTxt}" tooltip="{i18n>saveBtnTxt}" press="onSave"/>
+						<Button id="btnCancelProcess" visible="{dataModel>/showFooter}" text="{i18n>cancelBtnTxt}" tooltip="{i18n>cancelBtnTxt}" press="onCancel"/>
+					</OverflowToolbar>
+				</f:footer>
+		</f:DynamicPage>
+</mvc:View>
