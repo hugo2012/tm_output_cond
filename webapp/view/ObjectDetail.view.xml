@@ -5,7 +5,7 @@
 	controllerName="com.bosch.rb1m.tm.tmoutputcond.controller.ObjectDetail">
 	<App id="_IDGenApp">
 	<pages>
-			<Page id="idObjectPage" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+			<Page id="idObjectPage" title="{objectModel>/tableDescription}" showNavButton="true" navButtonPress="onNavBack">
 				<subHeader>
 					<OverflowToolbar id="tbHeader">
 						<ToolbarSpacer id="_IDGenToolbarSpacer2"/>	
@@ -20,7 +20,7 @@
 							<forms:ColumnLayout id="_IDGenColumnLayout"/>
 						</forms:layout>
 						<forms:formContainers>
-							<forms:FormContainer id="customAttributesFormContainer"  title="{objectModel>/tableDescription}">
+							<forms:FormContainer id="customAttributesFormContainer"  title="">
 								<forms:formElements>
 									<forms:FormElement id="_OUTPUT_TYPE"  label="{i18n>output_type_txt}"  >
 										<forms:fields>
@@ -118,6 +118,17 @@
 											 showSecondaryValues= "true" filterSecondaryValues= "true"
 												selectedKey="{objectModel>/dynamicForm/0/PRINT_TIMEPOINT}" editable="{objectModel>/editEnable}">
 												<core:ListItem id="PRINT_TIMEPOINT" key="{comboBoxModel>Print_TimePoint}" text="{comboBoxModel>Text}"
+												/>
+											</ComboBox>
+										</forms:fields>
+									</forms:FormElement>
+									<forms:FormElement id="id_LOADING_LIST_PRINT_2" label="{i18n>print_loading_list_txt}" >
+										<forms:fields>
+											<ComboBox id="comb_id_LOADING_LIST_PRINT_1"   items="{ path: 'comboBoxModel>/LoadingListPrintSet',templateShareable: false}"
+											 change="handleChangeCbDevice" selectionChange =".onInputChange" 
+											 showSecondaryValues= "true" filterSecondaryValues= "true"
+												selectedKey="{objectModel>/dynamicForm/0/LOADING_LIST_PRINT}" editable="{objectModel>/editEnable}">
+												<core:ListItem id="LOADINGLISTPRINT" key="{comboBoxModel>LOADINGLISTPRINT}" text="{comboBoxModel>DISCRIPTION}"
 												/>
 											</ComboBox>
 										</forms:fields>

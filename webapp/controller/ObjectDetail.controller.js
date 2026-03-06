@@ -85,12 +85,14 @@ sap.ui.define([
                 this.oCbx_PRINT_LANGUAGE = this.getView().byId("PRINT_LANGUAGE");
                 this.oCbx_ASN_SOURCE = this.getView().byId("cb_ASN_SOURCE_2");
                 this.oCbx_Print_Time = this.getView().byId("comb_PRINT_TIMEPOINT_1");
+                this.oCbx_LoadingListPrt = this.getView().byId("comb_id_LOADING_LIST_PRINT_1");
                 this.oCbx_ASN_Function = this.getView().byId("comb_FUNCTION_ASN_2");
                 this.oCbx_ASN_PARTNER = this.getView().byId("comb_PARTNER_2");
                 this.oCbx_OutputDevice.setValueState(sap.ui.core.ValueState.None);
                 this.oCbx_PRINT_LANGUAGE.setValueState(sap.ui.core.ValueState.None);
                 this.oCbx_ASN_SOURCE.setValueState(sap.ui.core.ValueState.None);
                 this.oCbx_Print_Time.setValueState(sap.ui.core.ValueState.None);
+                this.oCbx_LoadingListPrt.setValueState(sap.ui.core.ValueState.None);
                 this.oCbx_ASN_PARTNER.setValueState(sap.ui.core.ValueState.None);
                 this.oCbx_ASN_Function.setValueState(sap.ui.core.ValueState.None);
 
@@ -134,6 +136,7 @@ sap.ui.define([
                     AfterReleaseSet: [],
                     PrintLanguageSet: [],
                     PrintTimePointSet: [],
+                    LoadingListPrintSet:[],
                     ASNPartnerSet: [],
                     ASNPartnerTypeSet: [],
                     OutputDevSet: [],
@@ -314,6 +317,9 @@ sap.ui.define([
                         } else if (textBoxHide.getId().includes("ARCHIEVE")) {
                             existField = false
                         }
+                        else if (textBoxHide.getId().includes("LOADING_LIST_PRINT")) {
+                            existField = false
+                        }
 						//set mandatory for all ASN input fiels
 						if (textBoxHide.getId().includes("FUNCTION")) {
 							textBoxHide.setRequired( true );
@@ -325,7 +331,24 @@ sap.ui.define([
 							textBoxHide.setRequired( true );
                         }
 
-                    } else {
+                    }
+                    else if (seloutputType.includes("_FO_")) {
+                         if (textBoxHide.getId().includes("PRINT_TIMEPOINT")) {
+                            existField = false
+                        }else if (textBoxHide.getId().includes("ARCHIEVE")) {
+                            existField = false
+                        }
+                         else if (textBoxHide.getId().includes("FUNCTION")) {
+                            existField = false
+                        }
+                       else if (textBoxHide.getId().includes("PARTNER")) {
+                            existField = false
+                        }
+                        else if (textBoxHide.getId().includes("ASN_SOURCE")) {
+                            existField = false
+                        }
+                    } 
+                    else {
                         if (textBoxHide.getId().includes("FUNCTION")) {
                             existField = false
                         }
@@ -333,6 +356,9 @@ sap.ui.define([
                             existField = false
                         }
                         if (textBoxHide.getId().includes("ASN_SOURCE")) {
+                            existField = false
+                        }
+                         if (textBoxHide.getId().includes("LOADING_LIST_PRINT")) {
                             existField = false
                         }
                     }
@@ -578,7 +604,6 @@ sap.ui.define([
                         title: "Error"
                     });
                 }
-
                 if (this.oMultiInput3.getValueState() == "Error") {
                     flagCheck = false;
                     var _message = this.getResourceBundle().getText("dialog.error.CSP.Invalid");
@@ -616,15 +641,27 @@ sap.ui.define([
                         title: "Error"
                     });
                 }
-    
-                if (this.oCbx_Print_Time.getValueState() == "Error") {
-                    flagCheck = false;
-                    var _message = this.getResourceBundle().getText("dialog.error.print_timepoint.Invalid");
-                    this.oCbx_Print_Time.setValueStateText(_message);
-                    sap.m.MessageBox.show(_message, {
-                        icon: sap.m.MessageBox.Icon.ERROR,
-                        title: "Error"
-                    });
+                if (seloutputType.includes("_FO_")){
+                     if (this.oCbx_LoadingListPrt.getValueState() == "Error") {
+                        flagCheck = false;
+                        var _message = this.getResourceBundle().getText("dialog.error.loading_list_prt.Invalid");
+                        this.oCbx_LoadingListPrt.setValueStateText(_message);
+                        sap.m.MessageBox.show(_message, {
+                            icon: sap.m.MessageBox.Icon.ERROR,
+                            title: "Error"
+                        });
+                    }
+                }
+                else{
+                    if (this.oCbx_Print_Time.getValueState() == "Error") {
+                        flagCheck = false;
+                        var _message = this.getResourceBundle().getText("dialog.error.print_timepoint.Invalid");
+                        this.oCbx_Print_Time.setValueStateText(_message);
+                        sap.m.MessageBox.show(_message, {
+                            icon: sap.m.MessageBox.Icon.ERROR,
+                            title: "Error"
+                        });
+                    }
                 }
                 if (seloutputType.includes("_ASN_"))
                 {
@@ -686,7 +723,6 @@ sap.ui.define([
                     } else {
                         oDataForm[0]["DEST_COUNTRY"] = "";
                     }
-
                 }
                 let d = oDataForm[0];
                 if (d["NO_OF_COPIES"]) {
@@ -694,27 +730,45 @@ sap.ui.define([
                     if (j.length > 0) {
                         let h = parseInt(j);
                         if (h > 0) {
-                            if (d["PRINT_TIMEPOINT"]) {
-                                let g = d["PRINT_TIMEPOINT"];
-                                if (g.length < 1) { // dialog.error.validation.save.print_timepoint
-                                    flagCheck = true;
-                                    let _message = this.getResourceBundle().getText("dialog.error.validation.BeforeSave.Obj.print_timepoint");
-                                    sap.m.MessageBox.show(_message, {
-                                        icon: sap.m.MessageBox.Icon.ERROR,
-                                        title: "Error"
-                                    });
-                                    return;
+                            let k = "";
+                             if( seloutputType.includes("_FO_")){                   
+                                 k = d["LOADING_LIST_PRINT"];
+                             }   
+                             else{
+                                  k = d["PRINT_TIMEPOINT"];
+                             }
+                            if (k) {
+                                let g = k;
+                                let _message = "";
+                                if( seloutputType.includes("_FO_")){
+                                    // g = d["LOADINGLISTPRINT"];
+                                    _message = this.getResourceBundle().getText("dialog.error.validation.BeforeSave.Obj.loadinglist");
                                 }
+                                else{
+                                   // g = d["PRINT_TIMEPOINT"];
+                                    _message = this.getResourceBundle().getText("dialog.error.validation.BeforeSave.Obj.print_timepoint");
+                                }
+                                    if (g.length < 1) { // dialog.error.validation.save.print_timepoint
+                                        flagCheck = true;
+                                      
+                                        sap.m.MessageBox.show(_message, {
+                                            icon: sap.m.MessageBox.Icon.ERROR,
+                                            title: "Error"
+                                        });
+                                        return;
+                                    }
                             } else { // dialog.error.validation.save.print_timepoint
                                 flagCheck = true;
                                 let _message = this.getResourceBundle().getText("dialog.error.validation.BeforeSave.Obj.print_timepoint");
+                               if( seloutputType.includes("_FO_")){
+                                 _message = this.getResourceBundle().getText("dialog.error.validation.BeforeSave.Obj.loadinglist");
+                               }
                                 sap.m.MessageBox.show(_message, {
                                     icon: sap.m.MessageBox.Icon.ERROR,
                                     title: "Error"
                                 });
                                 return;
                             }
-
                         }
                     } else {
                         this.getView().byId("NO_OF_COPIES").setValue("0")
@@ -722,7 +776,6 @@ sap.ui.define([
                 } else {
                     this.getView().byId("NO_OF_COPIES").setValue("0")
                 }
-
                 var data1 = {};
                 let chkKeyValue = true;
 				let chkRequired = false;
@@ -731,7 +784,6 @@ sap.ui.define([
                     var a = ocolumn.HeaderName;
                     var c = "Col" + ocolumn.HeaderIndex;
 					if (seloutputType.includes("_ASN_")){
-
 						//set mandatory for all ASN input fiels
 						if (a.includes("FUNCTION")) {
 							chkRequired = true;
@@ -779,6 +831,23 @@ sap.ui.define([
 								break;
 							}
 						}
+                        else{
+                            //set mandatory for all FO input fiels
+                            if( seloutputType.includes("_FO_")){
+                                if (a.includes("LOADING_LIST_PRINT")) {
+                                    chkRequired = true;
+                                    if (oDataForm[0][a].length < 1 && chkRequired == true ) {
+                                        chkKeyValue = false;
+                                        let _message = this.getResourceBundle().getText("dialog.error.CheckMandatory.PrintTime.Invalid") ;
+                                        sap.m.MessageBox.show(_message, {
+                                            icon: sap.m.MessageBox.Icon.ERROR,
+                                            title: "Error"
+                                        });
+                                        break;
+                                    }
+                                }
+                            }
+                        }
 					}
                     data1[c] = oDataForm[0][a];
                 }
@@ -788,7 +857,6 @@ sap.ui.define([
                     _payload_deep_rt.ItemsNav = [];
                     return;
                 }
-
                 _payload_deep_rt.Mode = this.getModel("objectModel").getProperty("/ModeChange");
                 _payload_deep_rt.ItemsNav = [];
                 _payload_deep_rt.ItemsNav.push(data1);
@@ -835,7 +903,6 @@ sap.ui.define([
                                 }
                                 break;
                             }
-
                         }
                     }.bind(this), function (oError) {
                         this.setBusy(false);
@@ -967,6 +1034,7 @@ sap.ui.define([
                 this.fngetASNSourceSet();
                 this.fnGetOutputType();
                 this.fnGetPrintTimePointSet();
+                this.fnGetLoadingListPrintSet();
                 this.fnGetASNPartnerTypeSet();
             },
             fnGetASNPartnerTypeSet: function (aFilter) {
@@ -990,6 +1058,16 @@ sap.ui.define([
                 this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), true);
                 this.getService().getPrintTimePointSet(aFilter).then(function (aData) { // debugger;
                     this.getModel("comboBoxModel").setProperty("/PrintTimePointSet", aData.results);
+                    this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), false);
+                }.bind(this), function (oError) {
+                    this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), false);
+                }.bind(this));
+            },
+            //fnGetLoadingListPrintSet
+            fnGetLoadingListPrintSet: function (aFilter) {
+                this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), true);
+                this.getService().getLoadingListPrintSet(aFilter).then(function (aData) { // debugger;
+                    this.getModel("comboBoxModel").setProperty("/LoadingListPrintSet", aData.results);
                     this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), false);
                 }.bind(this), function (oError) {
                     this.fnSetBusyIndicatorOnDetailControls(this.getView().byId("_IDGenDynamicPageHeader"), false);

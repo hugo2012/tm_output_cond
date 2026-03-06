@@ -7,12 +7,12 @@
 		xmlns:layout="sap.ui.layout"
         xmlns:svm="sap.ui.comp.smartvariants"
 		height="100%">
-		<f:DynamicPage id="dynamicPageId"  >				
+		<f:DynamicPage id="dynamicPageId"  headerExpanded="true">				
 			<f:header >
 				<f:DynamicPageHeader id="_IDGenDynamicPageHeader" pinnable="true" visible="true">
 				<f:content>     
 					 <HBox id="_IDGenHBox1" alignItems="Start" justifyContent="Start" class="sapUiSmallMarginBottom pgTitleFont" >
-						<Title id="_IDGenTitle1" text="{i18n>title}"/>
+						<!-- <Title id="_IDGenTitle1" text="{i18n>title}"/> -->
 					</HBox>               
 					<fb:FilterBar id="_IDGenFilterBar12" 
 					search=".onSearchGo" 
@@ -132,10 +132,11 @@
 			</f:header>
 			<f:content>
 				<Table id="dynamicTable" showNoData="true" visible="true" mode="MultiSelect" 
-					growing="true" growingThreshold="20"  selectionChange="onRowSelectionChange"
+					growing="true" growingThreshold="10"  selectionChange="onRowSelectionChange"
 					updateFinished="fnOnDynamicTableUpdated"
 					items="{ path: 'dataModel>/itemTableDataSet',   templateShareable: false }" 
-					itemPress="onItemPress"	
+					itemPress="onItemPress"	sticky="ColumnHeaders,HeaderToolbar"
+					class="sapFDynamicPageAlignContent"
 					growingTriggerText="{i18n>btnGrowing}">
 						<headerToolbar>
 							<Toolbar id="_IDGenToolbar">
@@ -172,6 +173,9 @@
 								</Column>
 								<Column id="ID_PRINT_TIMEPOINT" hAlign="Center" width="10em">
 									<Text id="PRINT_TIMEPOINT_1" text="{i18n>print_time_point_txt}" />
+								</Column>
+								<Column id="id_LOADING_LIST_PRINT" hAlign="Center" width="10em">
+									<Text id="LOADING_LIST_PRINT_1" text="{i18n>print_loading_list_txt}" />
 								</Column>
 								<Column id="_IDNO_OF_COPIES" hAlign="Center" width="7em">
 									<Text id="NO_OF_COPIES_1"  text="{i18n>no_of_copies_txt}" />
@@ -218,6 +222,13 @@
 										showSecondaryValues= "true" filterSecondaryValues= "true"
 											selectedKey="{dataModel>PRINT_TIMEPOINT}" editable="{dataModel>/editEnable}">
 											<core:ListItem id="PRINT_TIMEPOINT_12" key="{comboBoxModel>Print_TimePoint}" text="{comboBoxModel>Text}"
+											/>
+										</ComboBox>
+										<ComboBox id="comb_id_LOADING_LIST_PRINT"   items="{ path: 'comboBoxModel>/LoadingListPrintSet',templateShareable: false}" 
+										change="handleChangeCbDevice" selectionChange =".onInputChange" 
+										showSecondaryValues= "true" filterSecondaryValues= "true"
+											selectedKey="{dataModel>LOADING_LIST_PRINT}" editable="{dataModel>/editEnable}">
+											<core:ListItem id="id_LOADING_LIST_PRINT_1" key="{comboBoxModel>LOADINGLISTPRINT}" text="{comboBoxModel>DISCRIPTION}"
 											/>
 										</ComboBox>
 										<Input id="txt_NO_OF_COPIES" editable="{dataModel>/editEnable}"

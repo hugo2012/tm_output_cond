@@ -42,7 +42,7 @@ sap.ui.define([
 			return new Promise((resolve, reject) => {
 				let oModel = _oController.getOwnerComponent().getModel("mainService");
 				var aUrlParameters = {
-					$top: "50000",
+					$top: "500",
 					$inlinecount: "allpages"
 				};
 				oModel.read("/OutputDevSet", {
@@ -64,7 +64,7 @@ sap.ui.define([
 			return new Promise((resolve, reject) => {
 				let oModel = _oController.getOwnerComponent().getModel("mainService");
 				var aUrlParameters = {
-					$top: "100000",
+					$top: "500",
 					$inlinecount: "allpages"
 				};
 				oModel.read("/ShipToSet", {
@@ -86,7 +86,7 @@ sap.ui.define([
 			return new Promise((resolve, reject) => {
 				let oModel = _oController.getOwnerComponent().getModel("mainService");
 				var aUrlParameters = {
-					$top: "50000",
+					$top: "500",
 					$inlinecount: "allpages"
 				};
 				oModel.read("/ShipPointSet", {
@@ -108,7 +108,7 @@ sap.ui.define([
 			return new Promise((resolve, reject) => {
 				let oModel = _oController.getOwnerComponent().getModel("mainService");
 				var aUrlParameters = {
-					$top: "50000",
+					$top: "500",
 					$inlinecount: "allpages"
 				};
 				oModel.read("/CSPSet", {
@@ -251,6 +251,29 @@ sap.ui.define([
 				});
 			});
 		},
+		//LOADINGLISTPRINT_GET_ENTITYSET
+		getLoadingListPrintSet :function(aFilter)
+		{
+			return new Promise((resolve, reject) => {
+				let oModel = _oController.getOwnerComponent().getModel("mainService");
+				var aUrlParameters = {
+					$top: "100",
+					$inlinecount: "allpages"
+				};
+				oModel.read("/LoadingListPrintSet", {
+					filters: aFilter,
+					urlParameters: aUrlParameters,
+					success: function (oData) {
+						resolve(oData);
+						//debugger;
+					},
+					error: function (oError) {
+						reject(oError);
+						//debugger;
+					}
+				});
+			});
+		},
 		getPrintTimeActionPPFSet :function(aFilter)
 		{
 			return new Promise((resolve, reject) => {
@@ -298,7 +321,7 @@ sap.ui.define([
 			return new Promise((resolve, reject) => {
 				let oModel = _oController.getOwnerComponent().getModel("mainService");
 				var aUrlParameters = {
-					$top: "50000",
+					$top: "500",
 					$inlinecount: "allpages"
 				};
 				oModel.read("/ASNPartnerSet", {
